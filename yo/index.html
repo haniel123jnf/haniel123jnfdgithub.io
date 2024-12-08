@@ -43,7 +43,11 @@
             margin: 5px;
             transition: transform 0.2s ease;
         }
-        button:hover {
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
             transform: scale(1.05);
         }
         #love-note, #sure-note {
@@ -57,15 +61,23 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             line-height: 1.6em;
         }
-        .heart {
+        .falling {
             position: absolute;
             color: #d81b60;
-            font-size: 1.5em;
             animation: fall linear infinite;
+        }
+        .heart {
+            font-size: 1.5em;
+        }
+        .word {
+            font-size: 2em;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+            color: #880e4f;
         }
         @keyframes fall {
             0% {
-                transform: translateY(-100px) rotate(0deg);
+                transform: translateY(-200px) rotate(0deg);
                 opacity: 1;
             }
             100% {
@@ -89,18 +101,35 @@
     </div>
 
     <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.textContent = '💖';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            heart.style.fontSize = Math.random() * 1.5 + 1 + 'em';
-            document.body.appendChild(heart);
+        const words = [
+            'Te amo', 
+            'Eres mi todo', 
+            'Mi vida', 
+            'Eres mi sol', 
+            'Siempre contigo', 
+            'Te quiero más cada día', 
+            'Mi amor eterno', 
+            'Eres la razón de mi felicidad', 
+            'Nunca dejaré de amarte', 
+            'Mi razón de vivir'
+        ];
 
-            // Eliminar corazones después de que caigan
+        function createFallingElement(elementType, content) {
+            const fallingElement = document.createElement('div');
+            fallingElement.classList.add('falling');
+            fallingElement.textContent = content;
+            if (elementType === 'heart') {
+                fallingElement.classList.add('heart');
+            } else if (elementType === 'word') {
+                fallingElement.classList.add('word');
+            }
+            fallingElement.style.left = Math.random() * 100 + 'vw';
+            fallingElement.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(fallingElement);
+
+            // Eliminar el elemento después de que caiga
             setTimeout(() => {
-                heart.remove();
+                fallingElement.remove();
             }, 5000);
         }
 
@@ -109,13 +138,17 @@
             sureNote.style.display = 'block';
             setTimeout(() => {
                 sureNote.style.display = 'none';
-                setInterval(createHeart, 200); // Iniciar corazones después del mensaje
             }, 2000); // Mostrar "¿Segura?" por 2 segundos
         });
 
         document.getElementById('yes').addEventListener('click', function() {
             document.getElementById('love-note').style.display = 'block';
-            setInterval(createHeart, 200); // Los corazones también caen al presionar "Sí"
+            setInterval(() => createFallingElement('heart', '💖'), 200); // Corazones
+
+            // Agregar más palabras que caen
+            setInterval(() => createFallingElement('word', words[Math.floor(Math.random() * words.length)]), 1500);
+            
+            document.getElementById('no').disabled = true; // Desactivar el botón "No"
         });
     </script>
 </body>
