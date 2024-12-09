@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventana1</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffdde1, #c1d3fe);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .contenedor {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff69b4;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%; /* Asegura que los botones se ajusten en pantallas pequeñas */
+            max-width: 200px; /* Límite de tamaño en pantallas grandes */
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .emoji {
+            font-size: 48px;
+            margin-top: 20px;
+        }
+
+        .emoji-enamorado {
+            font-size: 48px;
+            margin-top: 20px;
+            color: #ff6347;
+        }
+
+        .emoji-respuesta {
+            font-size: 48px;
+            margin-top: 10px;
+        }
+
+        .respuesta-mensaje {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .corazon {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            animation: caer 3s infinite;
+        }
+
+        @keyframes caer {
+            0% {
+                top: -50px;
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+
+        /* Media Queries para pantallas más pequeñas */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            .contenedor {
+                width: 100%;
+                max-width: none;
+                padding: 15px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 14px;
+                max-width: 100%; /* Botones a tamaño completo en móviles */
+            }
+
+            .emoji {
+                font-size: 40px;
+            }
+
+            .emoji-enamorado {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <p id="mensaje">
+            Hola cómo estás, niña hermosa, mi todo, mi amor, el amor de mi vida, 
+            la persona que más amo, mi solecito, la chica más hermosa del universo, 
+            mi luz, mi todo. Te amo mucho muchísimo. De seguro estás leyendo esto 
+            y tal vez no estemos hablando o no sé, pero bueno, quiero que hagas 
+            algo por mí. ¿Sí?
+        </p>
+        <button onclick="respuesta('si')">Sí</button>
+        <button onclick="respuesta('no')">No</button>
+
+        <!-- Elementos adicionales para mostrar el emoji y el mensaje -->
+        <div id="emoji-container"></div>
+        <div id="respuesta-mensaje"></div>
+    </div>
+
+    <script>
+        let clickCount = 0; // Variable para contar cuántas veces se presiona "Sí"
+
+        function respuesta(respuesta) {
+            const emojiContainer = document.getElementById("emoji-container");
+            const mensaje = document.getElementById("mensaje");
+            const buttons = document.querySelectorAll("button");
+            const respuestaMensaje = document.getElementById("respuesta-mensaje");
+
+            if (respuesta === 'no') {
+                // Mostrar emoji enojado y mensaje de "¿Segura?"
+                emojiContainer.innerHTML = `
+                    <div class="emoji">😡</div>
+                    <div class="mensaje-segura">¿Segura?</div>
+                `;
+            } else if (respuesta === 'si' || respuesta === 'siguiente') {
+                clickCount++; // Incrementar el contador de clics
+                if (clickCount === 1) {
+                    // Primer clic en "Sí"
+                    emojiContainer.innerHTML = `
+                        <div class="emoji-enamorado">😍</div>
+                    `;
+                    mensaje.innerHTML = `
+                        Oye, amor mío, ¿puedes tomar la lámpara y ponerla de frente a ti?
+                    `;
+                } else if (clickCount === 2) {
+                    // Segundo clic en "Sí"
+                    emojiContainer.innerHTML = `
+                        <div class="emoji-enamorado">😍</div>
+                    `;
+                    mensaje.innerHTML = `
+                        Ahora, ¿puedes prenderla?
+                    `;
+                } else if (clickCount === 3) {
+                    // Tercer clic en "Sí"
+                    emojiContainer.innerHTML = `
+                        <div class="emoji-enamorado">😍</div>
+                    `;
+                    mensaje.innerHTML = `
+                        Cada uno de ellos es un "TE AMO" mío para ti. Puedes intentar contarlos 
+                        todos, pero te aseguro que nunca terminarás, porque así como esos tulipanes 
+                        son infinitos, así es mi amor por ti. Te amo, y sabes que nunca me cansaré de 
+                        decírtelo.
+                    `;
+                    // Cambiar botón "Sí" a "Siguiente" y quitar el botón "No"
+                    buttons[0].innerText = "Siguiente";
+                    buttons[1].style.display = "none"; // Ocultar el botón "No"
+                } else if (clickCount === 4) {
+                    // Cuarto clic en "Siguiente"
+                    mensaje.innerHTML = `
+                        Te amo, te amo, te amo mucho. Eres mi todo, mi estrella que siempre brilla, 
+                        sin importar qué tan lejos o cerca estés. Para mí, siempre serás esa luz que más brilla.
+                    `;
+                    // El emoji sigue siendo "enamorado"
+                    emojiContainer.innerHTML = `
+                        <div class="emoji-enamorado">😍</div>
+                    `;
+                } else if (clickCount === 5) {
+                    // Quinto clic en "Siguiente"
+                    mensaje.innerHTML = `
+                        Hace poco me di cuenta de que estoy malgastando mi tiempo en muchas cosas, 
+                        de las cuales, no creo que vaya a sacarles algún beneficio. Por estas cosas, 
+                        me he alejado de ti, mucho más de lo que pensaba. También me di cuenta de algo más importante, 
+                        y es que no quiero perder más de mi tiempo en otras cosas. 
+                        Lo que en realidad siempre he querido es pasar tiempo contigo... Y siento que me he estado 
+                        alejando de ese propósito que tengo, por eso no puedo pensar en que solo he estado 
+                        alejándome más y más de ti. Lo siento.
+                    `;
+                    // El emoji sigue siendo "enamorado"
+                    emojiContainer.innerHTML = `
+                        <div class="emoji-enamorado">😍</div>
+                    `;
+                } else if (clickCount === 6) {
+                    // Sexto clic en "Siguiente"
+                    mensaje.innerHTML = `
+                        También me di cuenta de que aquella vez que te dije que me gustabas, solo te dije eso, 
+                        y la verdad me había olvidado de todo lo que seguía jajaja, pero...
+                    `;
+                    // El emoji sigue siendo "enamorado"
+                    emojiContainer.innerHTML = `
+                        <div class="emoji-enamorado">😍</div>
+                    `;
+                } else if (clickCount === 7) {
+                    // Séptimo clic en "Siguiente" (mostrar pregunta final)
+                    mensaje.innerHTML = `
+                        Rodelys Rosario Camacho Mercedes, me gustas mucho y siempre he querido saber si... ¿Puedo ser tu novio??
+                    `;
+                    // Crear los botones con emojis
+                    const buttonSi = document.createElement("button");
+                    buttonSi.innerText = "Sí";
+                    buttonSi.onclick = () => {
+                        cambiarEmojiRespuesta('si');
+                        iniciarCorazones(); // Llamar a la función para iniciar la caída de corazones
+                    };
+                    
+                    const buttonNo = document.createElement("button");
+                    buttonNo.innerText = "No";
+                    buttonNo.onclick = () => cambiarEmojiRespuesta('no');
+                    
+                    const buttonDespues = document.createElement("button");
+                    buttonDespues.innerText = "¿Puedo responder después?";
+                    buttonDespues.onclick = () => cambiarEmojiRespuesta('despues');
+
+                    // Agregar los botones al contenedor
+                    emojiContainer.innerHTML = ''; // Limpiar emoji actual
+                    emojiContainer.appendChild(buttonSi);
+                    emojiContainer.appendChild(buttonNo);
+                    emojiContainer.appendChild(buttonDespues);
+
+                    // Eliminar el botón "Siguiente"
+                    buttons[0].style.display = "none"; 
+                }
+            }
+        }
+
+        // Función para cambiar los emojis y mostrar mensaje según la respuesta
+        function cambiarEmojiRespuesta(respuesta) {
+            const emojiContainer = document.getElementById("emoji-container");
+            const respuestaMensaje = document.getElementById("respuesta-mensaje");
+            if (respuesta === 'si') {
+                emojiContainer.innerHTML = `<div class="emoji-enamorado">😍</div>`;
+                respuestaMensaje.innerHTML = "Entonces eso quiere decir que ahora somos novios.";
+            } else if (respuesta === 'no') {
+                emojiContainer.innerHTML = `<div class="emoji">😢</div>`;
+                respuestaMensaje.innerHTML = "Lo respeto, espero que algún día lo pienses.";
+            } else if (respuesta === 'despues') {
+                emojiContainer.innerHTML = `<div class="emoji">🤔</div>`;
+                respuestaMensaje.innerHTML = "No hay prisa, esperaré hasta que estés lista....";
+            }
+        }
+
+        // Función para iniciar la caída de corazones
+        function iniciarCorazones() {
+            const body = document.body;
+            setInterval(() => {
+                const corazon = document.createElement("div");
+                corazon.classList.add("corazon");
+                corazon.innerText = "❤️";
+                corazon.style.left = `${Math.random() * 100}vw`; // Posición horizontal aleatoria
+                body.appendChild(corazon);
+            }, 100);
+        }
+    </script>
+</body>
+</html>

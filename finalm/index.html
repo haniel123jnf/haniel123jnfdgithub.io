@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primera Ventana</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffdde1, #c1d3fe); /* Fondo romántico */
+            font-family: 'Arial', sans-serif;
+        }
+
+        button {
+            position: relative;
+            z-index: 10;
+            padding: 15px 40px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #ff69b4; /* Rosa */
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .elemento {
+            position: absolute;
+            top: -10%;
+            font-size: 24px;
+            font-weight: bold;
+            animation: caer 6s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes caer {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .rosa {
+            color: #ff69b4; /* Rosa */
+        }
+
+        .negro {
+            color: #000; /* Negro */
+        }
+    </style>
+</head>
+<body>
+    <button onclick="abrirVentana()">Empezar</button>
+
+    <script>
+        const mensajesRosa = ["Te amo", "Eres mi todo", "Quiero que seas tú", "Te adoro", "Te quiero mucho"];
+        const flores = ["🌼", "🌷", "🌸", "💮", "🏵️"];
+        const mensajeNegro = "¿Puedo ser tu novio?";
+
+        function crearElementos() {
+            for (let i = 0; i < 5; i++) {
+                const elemento = document.createElement('div');
+                elemento.classList.add('elemento');
+
+                // Decidir si es una flor o un mensaje
+                if (Math.random() > 0.6) {
+                    elemento.textContent = flores[Math.floor(Math.random() * flores.length)];
+                } else if (Math.random() > 0.2) {
+                    elemento.textContent = mensajesRosa[Math.floor(Math.random() * mensajesRosa.length)];
+                    elemento.classList.add('rosa');
+                } else if (Math.random() > 0.8) { // Menor probabilidad de que caiga el mensaje negro
+                    elemento.textContent = mensajeNegro;
+                    elemento.classList.add('negro');
+                } else {
+                    continue; // Saltar la creación si no cumple las condiciones
+                }
+
+                elemento.style.left = Math.random() * 100 + 'vw';
+                elemento.style.animationDuration = Math.random() * 4 + 3 + 's';
+                elemento.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(elemento);
+
+                elemento.addEventListener('animationend', () => {
+                    elemento.remove();
+                });
+            }
+        }
+
+        setInterval(crearElementos, 2000);
+
+        function abrirVentana() {
+            location.href = 'ventana1.html'; /* Redirige a ventana1.html */
+        }
+    </script>
+</body>
+</html>
